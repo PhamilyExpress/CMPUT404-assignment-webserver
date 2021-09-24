@@ -1,4 +1,4 @@
-#  coding: utf-8 
+#  coding: utf-8
 import socketserver, os, urllib.parse
 
 # Copyright 2013 Abram Hindle, Eddie Antonio Santos
@@ -29,7 +29,7 @@ import socketserver, os, urllib.parse
 class MyWebServer(socketserver.BaseRequestHandler):
     def handle(self):
         self.data = self.request.recv(1024).strip()
-        # print ("Got a request of: %s\n" % self.data)
+        print ("Got a request of: %s\n" % self.data)
 
         parsed_data = urllib.parse.urlparse(self.data)
         path = parsed_data.path.decode().split('\r\n')[0]
@@ -57,7 +57,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
 
             elif os.path.isdir(self.url):
                 self.url += "/"
-                message = "HTTP/1.1 301 Moved Permanently\r\nLocation: http://127.0.0.1:8080" + self.url[3:] + "\r\nContent-Type: " + content_type +"\r\n"
+                message = "HTTP/1.1 301 Moved Permanently\r\nLocation: http://127.0.0.1:8080" + self.url[3:] + "\r\nContent-Type: text/plain;\r\n"
                 return message
 
             elif url_periods_split[-1] == "html":
@@ -75,7 +75,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
 
             try:
                 file = open(self.url, "r").read()
-                header = "HTTP/1.1 200 OK\r\nContent-Type: " + content_type + " charset=UTF-8\r\n\r\n" + file + "\r\n"
+                header = "HTTP/1.1 200 OK\r\nContent-Type: " + content_type + " charset=iso-8859-1\r\n\r\n" + file + "\r\n"
                 return header
             except:
                 return self.Code404()
