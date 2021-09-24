@@ -29,7 +29,7 @@ import socketserver, os, urllib.parse
 class MyWebServer(socketserver.BaseRequestHandler):
     def handle(self):
         self.data = self.request.recv(1024).strip()
-        # print ("Got a request of: %s\n" % self.data)
+        print ("Got a request of: %s\n" % self.data)
 
         parsed_data = urllib.parse.urlparse(self.data)
         path = parsed_data.path.decode().split('\r\n')[0]
