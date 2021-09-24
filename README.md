@@ -10,6 +10,12 @@ Make a simple webserver.
 Contributors / Licensing
 ========================
 
+Contributors: Joshua Smith
+
+References:
+https://stackoverflow.com/questions/41852380/how-to-abort-a-python-script-and-return-a-404-error
+https://www.guru99.com/python-check-if-file-exists.html
+
 Generally everything is LICENSE'D under the Apache 2 license by Abram Hindle.
 
 server.py contains contributions from:
