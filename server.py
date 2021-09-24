@@ -29,7 +29,7 @@ import socketserver, os, urllib.parse
 class MyWebServer(socketserver.BaseRequestHandler):
     def handle(self):
         self.data = self.request.recv(1024).strip()
-        print ("Got a request of: %s\n" % self.data)
+        # print ("Got a request of: %s\n" % self.data)
 
         parsed_data = urllib.parse.urlparse(self.data)
         path = parsed_data.path.decode().split('\r\n')[0]
@@ -39,7 +39,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
 
         method = path.split(' ')[0]
         if method != "GET":
-            header = "HTTP/1.1 405 Method Not Allowed\nContent-Type: text/plain\nContent-Length: 0\r\n"
+            header = "HTTP/1.1 405 Method Not Allowed\nContent-Type: text/plain\n"
         else:
             header = self.fileSearch()
 
@@ -57,8 +57,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
 
             elif os.path.isdir(self.url):
                 self.url += "/"
-                message = "HTTP/1.1 301 Moved Permanently\r\nLocation: http://127.0.0.1:8080" + self.url[3:] + "\r\nContent-Type: " \
-                    + content_type +" charset=UTF-8\r\nContent-Length: 0\r\nConnection: close\r\n"
+                message = "HTTP/1.1 301 Moved Permanently\r\nLocation: http://127.0.0.1:8080" + self.url[3:] + "\r\nContent-Type: " + content_type +"\r\n"
                 return message
 
             elif url_periods_split[-1] == "html":
@@ -76,7 +75,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
 
             try:
                 file = open(self.url, "r").read()
-                header = "HTTP/1.1 200 OK\r\nContent-Type: " + content_type + " charset=UTF-8\r\nConnection: close\r\n\r\n" + file + "\r\n"
+                header = "HTTP/1.1 200 OK\r\nContent-Type: " + content_type + " charset=UTF-8\r\n\r\n" + file + "\r\n"
                 return header
             except:
                 return self.Code404()
@@ -84,7 +83,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
             return self.Code404()
 
     def Code404(self):
-        header = "HTTP/1.1 404 Not Found\nContent-Type: text/plain\r\nConnection: close\r\n\r\n"
+        header = "HTTP/1.1 404 Not Found\nContent-Type: text/plain\r\n\r\n"
         return header
 
 if __name__ == "__main__":
